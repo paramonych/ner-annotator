@@ -35,7 +35,7 @@
 
 <h1>Put your text here</h1>
 
-<textarea id="input-text" on:select={onSelect}>
+<textarea id="input-text" on:select={onSelect} spellcheck="false">
 </textarea>
   
 
