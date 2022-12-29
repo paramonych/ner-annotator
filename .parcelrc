@@ -1,6 +1,8 @@
 {
   "extends": ["@parcel/config-default"],
   "transformers": {
-    "**/*.svelte": ["parcel-transformer-svelte"]
+    "*.{ts,tsx}": ["@parcel/transformer-typescript-tsc"],
+    "**/*.svelte": ["parcel-transformer-svelte"],
+    "*.{zip,tgz}": ["@parcel/transformer-raw"]
   }
 }
