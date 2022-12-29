@@ -1,0 +1,38 @@
+@import "./vars.less";
+
+* {
+    font-family: system-ui,sans-serif;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    background-color: rgb(132, 204, 233);
+    overflow: hidden;
+}
+
+.main-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: calc(100% - 2*@margin);
+    height: 100%;
+    margin: @margin;
+}
+
+h1 {
+    margin-top: 0;
+}
+
+#input-text {
+    border: @border solid black;
+    width: calc(100% - 2*@border - @margin);
+    height: auto;
+    min-height: 50%;
+    margin: 0;
+    padding: calc(@margin/2);
+    line-height: 1.7rem;
+    font-size: 1rem;
+}

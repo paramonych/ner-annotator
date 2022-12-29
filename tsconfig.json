@@ -1,0 +1,23 @@
+{
+  "extends": "@tsconfig/svelte/tsconfig.json",
+  "include": [
+    "src/scripts/**/*"
+  ],
+  "exclude": [
+    "node_modules/*"
+  ],
+  "compilerOptions": {
+    "types": [
+      "svelte"
+    ],
+    "baseUrl": "./src/scripts",
+    "paths": {
+      "~/*": [
+        "./*"
+      ]
+    },
+    "strict": true,
+    "isolatedModules": false,
+    "importsNotUsedAsValues": "preserve"
+  }
+}
