@@ -3,10 +3,17 @@
   
   export let tag 
 
+  export let markup
+
+  let value = ''
+
+  $: {
+    markup = {...markup, text: value}
+  }
+
 </script>
 
 
-<textarea id="input-text" on:select={onSelect} spellcheck="false">
-</textarea>
+<textarea id="input-text" bind:value on:select={onSelect} spellcheck="false"></textarea>
   
 

@@ -1,10 +1,9 @@
 <script lang="ts">
   import { onMount } from 'svelte'
-    import { bind } from 'svelte/internal';
-    import { BIO } from './enums';
-    import InputArea from './InputArea.svelte';
-    import Tags from './Tags.svelte'
-    import { onSelect } from './utils'
+  import { BIO, defaults } from './values'
+  import InputArea from './InputArea.svelte'
+  import Tags from './Tags.svelte'
+  import { randomColor } from './utils'
 
   let time = new Date()
   let hours = 0
@@ -13,7 +12,10 @@
 
   let options = [BIO.DEFAULT, BIO.NEW, BIO.LOC, BIO.ORG, BIO.PER]
   let selectedTag = BIO.DEFAULT
+  let selectedColor = ''
   let newTag = ''
+  let markup = defaults.markup
+  let colors = ['','', randomColor(), randomColor(), randomColor()]
 
   $: {
     hours = time.getHours()
@@ -21,16 +23,13 @@
     seconds = time.getSeconds()
   }
 
-  // $: {
-  //   console.log(selectedTag)
-  // }
-
   function newTagSubmit() {
     const tag = newTag.toUpperCase()
-    
+
     if(options.filter(_ => _ == tag ).length == 0) {
       options.push(tag)
-      selectedTag = tag as BIO
+      colors.push(randomColor())
+      selectedTag = tag
     } else {
       selectedTag = BIO.DEFAULT
     }
@@ -54,11 +53,15 @@
       <button on:click={_ => selectedTag = BIO.DEFAULT}>Cancel</button>
     </div>
   {:else}
-    <Tags on:tagChanged={_ => selectedTag = _.detail} bind:options bind:selectedTag/>
+    <Tags on:tagChanged={_ => selectedTag = _.detail} bind:options {colors} bind:selectedTag/>
   {/if}
 </div> 
 
 
-<InputArea bind:tag={selectedTag}/>
+<InputArea bind:tag={selectedTag} {selectedColor} bind:markup/>
+
+<div class="result">
+  {JSON.stringify(markup)}
+</div>
   
 
