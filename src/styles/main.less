@@ -65,6 +65,27 @@ body {
         padding: 1rem;
         font-size: 1rem;
         line-height: 1.7rem;
+
+        .marked {
+            padding: 0.25rem 0.5rem;
+            border: 1px solid black;
+            border-radius: 3px;
+            margin-right: 0.3rem;
+
+            .type {
+                padding-right: 0.3rem;
+                font-weight: 400;
+                font-size: 0.7rem;
+            }
+
+            .drop {
+                font-weight: 600;
+                cursor: pointer;
+                position: relative;
+                top: -0.04rem;
+                padding-left: 0.1rem;
+            }
+        }
     }
 }
 
@@ -81,7 +102,7 @@ body {
     border: @border solid black;
     width: calc(100% - 2*@border - @margin);
     height: auto;
-    min-height: 50%;
+    min-height: 40%;
     margin: 0;
     padding: calc(@margin/2);
     line-height: 1.7rem;

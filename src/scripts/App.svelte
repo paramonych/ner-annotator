@@ -1,9 +1,11 @@
 <script lang="ts">
   import { onMount } from 'svelte'
-  import { BIO, defaults, Span } from './values'
+  import { BIO, defaults } from './values'
+  import { randomColor } from './utils'
+  
   import InputArea from './InputArea.svelte'
   import Tags from './Tags.svelte'
-  import { randomColor } from './utils'
+  import OutputArea from './OutputArea.svelte'
 
   let time = new Date()
   let hours = 0
@@ -43,7 +45,7 @@
     let existing = markup.spans.filter(_ => (_.start == start && _.stop == stop))
     let overlapping = markup.spans.filter(_ => (_.start < start && start < _.stop || _.start < stop && stop < _.stop))
     
-    if(selectedTag != BIO.DEFAULT && stop > start && !existing.length && !overlapping.length) { 
+    if(selection && selectedTag != BIO.DEFAULT && stop > start && !existing.length && !overlapping.length) { 
       markup.spans = [...markup.spans, {
         start: start,
         stop: stop,
@@ -55,6 +57,8 @@
       alert(`Span exist: ${JSON.stringify(existing)}`)
     } else if(overlapping.length) {
       alert(`Span overlaping: ${JSON.stringify(overlapping)}`)
+    } else if(!selection) {
+      alert('Empty selection is not allowed')
     }
   }
 
@@ -81,15 +85,14 @@
       <button on:click={_ => selectedTag = BIO.DEFAULT}>Cancel</button>
     </div>
   {:else}
-    <Tags on:tagChanged={tagChanged} bind:options {colors} bind:selectedTag bind:tagWarning/>
+    <Tags on:tagChanged={tagChanged} bind:colors bind:options bind:selectedTag bind:tagWarning/>
   {/if}
 </div> 
 
 
 <InputArea bind:tag={selectedTag} on:textChanged={_ => markup = {...markup, text: _.detail}} on:selectionChanged={processSelection} bind:value={markup.text}/>
 
-<div class="result">
-  {JSON.stringify(markup)}
-</div>
+<OutputArea bind:markup bind:colors bind:options/>
+
   
 

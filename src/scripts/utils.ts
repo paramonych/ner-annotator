@@ -22,5 +22,5 @@ export function isTooDark(hexcolor) {
     let b = parseInt(hexcolor.substr(5,2),16);
     let yiq = ((r*299)+(g*587)+(b*114))/1000;
     
-    return (yiq < 70);
+    return (yiq < 80);
 }
