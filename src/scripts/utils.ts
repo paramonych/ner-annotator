@@ -1,4 +1,4 @@
-export function onSelect() {
+export function getSelection() {
     let selection
 
     if (window.getSelection) {
@@ -9,7 +9,7 @@ export function onSelect() {
         selection = (document as any).selection.createRange().text
     }
 
-    console.log(selection)
+    return selection
 }
 
 export function randomColor() {

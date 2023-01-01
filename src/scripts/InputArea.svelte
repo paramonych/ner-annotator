@@ -1,6 +1,6 @@
 <script lang="ts">
   import { createEventDispatcher } from "svelte"
-  import { onSelect } from "./utils"
+  import { getSelection } from "./utils"
   
   export let tag 
   export let value
@@ -11,9 +11,13 @@
     dispatch('textChanged', value)
   }
 
+  function selectionChanged() {
+    dispatch('selectionChanged', getSelection())
+  }
+
 </script>
 
 
-<textarea id="input-text" bind:value on:select={onSelect} spellcheck="false"></textarea>
+<textarea id="input-text" bind:value on:select={selectionChanged} spellcheck="false"></textarea>
   
 

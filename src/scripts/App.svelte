@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte'
-  import { BIO, defaults } from './values'
+  import { BIO, defaults, Span } from './values'
   import InputArea from './InputArea.svelte'
   import Tags from './Tags.svelte'
   import { randomColor } from './utils'
@@ -12,7 +12,6 @@
 
   let options = [BIO.DEFAULT, BIO.NEW, BIO.LOC, BIO.ORG, BIO.PER]
   let selectedTag = BIO.DEFAULT
-  let selectedColor = ''
   let newTag = ''
   let markup = defaults.markup
   let colors = ['','', randomColor(), randomColor(), randomColor()]
@@ -32,6 +31,23 @@
       selectedTag = tag
     } else {
       selectedTag = BIO.DEFAULT
+    }
+  }
+
+  function processSelection(_) {
+    let selection = _.detail
+    let start = markup.text.indexOf(selection)
+    let stop = markup.text.indexOf(selection) + selection.length
+
+    let existing = markup.spans.filter(_ => (_.start == start && _.stop == stop)).length
+    let overlapping = markup.spans.filter(_ => (_.start < start && start < _.stop || _.start < stop && stop < _.stop)).length
+    
+    if(selectedTag != BIO.DEFAULT && stop > start && !existing && !overlapping) { 
+      markup.spans = [...markup.spans, {
+        start: start,
+        stop: stop,
+        type: selectedTag
+      }]
     }
   }
 
@@ -58,7 +74,7 @@
 </div> 
 
 
-<InputArea bind:tag={selectedTag} on:textChanged={_ => markup = {...markup, text: _.detail}} bind:value={markup.text}/>
+<InputArea bind:tag={selectedTag} on:textChanged={_ => markup = {...markup, text: _.detail}} on:selectionChanged={processSelection} bind:value={markup.text}/>
 
 <div class="result">
   {JSON.stringify(markup)}
