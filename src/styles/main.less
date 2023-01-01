@@ -35,6 +35,10 @@ body {
             top: -0.2rem;
             position: relative;
 
+            &.warning {
+                border: 2px solid red;
+            }
+
             select {
                 padding: 5px 7px;
                 font-size: 1.2rem;
@@ -77,7 +81,7 @@ body {
     border: @border solid black;
     width: calc(100% - 2*@border - @margin);
     height: auto;
-    min-height: 30%;
+    min-height: 50%;
     margin: 0;
     padding: calc(@margin/2);
     line-height: 1.7rem;

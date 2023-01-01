@@ -15,6 +15,7 @@
   let newTag = ''
   let markup = defaults.markup
   let colors = ['','', randomColor(), randomColor(), randomColor()]
+  let tagWarning = false
 
   $: {
     hours = time.getHours()
@@ -39,16 +40,27 @@
     let start = markup.text.indexOf(selection)
     let stop = markup.text.indexOf(selection) + selection.length
 
-    let existing = markup.spans.filter(_ => (_.start == start && _.stop == stop)).length
-    let overlapping = markup.spans.filter(_ => (_.start < start && start < _.stop || _.start < stop && stop < _.stop)).length
+    let existing = markup.spans.filter(_ => (_.start == start && _.stop == stop))
+    let overlapping = markup.spans.filter(_ => (_.start < start && start < _.stop || _.start < stop && stop < _.stop))
     
-    if(selectedTag != BIO.DEFAULT && stop > start && !existing && !overlapping) { 
+    if(selectedTag != BIO.DEFAULT && stop > start && !existing.length && !overlapping.length) { 
       markup.spans = [...markup.spans, {
         start: start,
         stop: stop,
         type: selectedTag
       }]
+    } else if(selectedTag == BIO.DEFAULT) {
+      tagWarning = true
+    } else if(existing.length) {
+      alert(`Span exist: ${JSON.stringify(existing)}`)
+    } else if(overlapping.length) {
+      alert(`Span overlaping: ${JSON.stringify(overlapping)}`)
     }
+  }
+
+  function tagChanged(_) {
+    tagWarning = false
+    selectedTag = _.detail
   }
 
   onMount(() => {
@@ -69,7 +81,7 @@
       <button on:click={_ => selectedTag = BIO.DEFAULT}>Cancel</button>
     </div>
   {:else}
-    <Tags on:tagChanged={_ => selectedTag = _.detail} bind:options {colors} bind:selectedTag/>
+    <Tags on:tagChanged={tagChanged} bind:options {colors} bind:selectedTag bind:tagWarning/>
   {/if}
 </div> 
 
