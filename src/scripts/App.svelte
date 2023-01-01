@@ -3,8 +3,8 @@
     import { bind } from 'svelte/internal';
     import { BIO } from './enums';
     import InputArea from './InputArea.svelte';
-  import Tags from './Tags.svelte'
-  import { onSelect } from './utils'
+    import Tags from './Tags.svelte'
+    import { onSelect } from './utils'
 
   let time = new Date()
   let hours = 0
@@ -12,7 +12,7 @@
   let seconds = 0
 
   let options = [BIO.DEFAULT, BIO.NEW, BIO.LOC, BIO.ORG, BIO.PER]
-  let selectedTag = ''
+  let selectedTag = BIO.DEFAULT
   let newTag = ''
 
   $: {
@@ -21,12 +21,19 @@
     seconds = time.getSeconds()
   }
 
-  $: {
-    console.log(selectedTag)
-  }
+  // $: {
+  //   console.log(selectedTag)
+  // }
 
   function newTagSubmit() {
-    console.log(newTag)
+    const tag = newTag.toUpperCase()
+    
+    if(options.filter(_ => _ == tag ).length == 0) {
+      options.push(tag)
+      selectedTag = tag as BIO
+    } else {
+      selectedTag = BIO.DEFAULT
+    }
   }
 
   onMount(() => {
@@ -47,7 +54,7 @@
       <button on:click={_ => selectedTag = BIO.DEFAULT}>Cancel</button>
     </div>
   {:else}
-    <Tags on:tagChanged={_ => selectedTag = _.detail} bind:options/>
+    <Tags on:tagChanged={_ => selectedTag = _.detail} bind:options bind:selectedTag/>
   {/if}
 </div> 
 

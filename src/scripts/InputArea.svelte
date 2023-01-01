@@ -6,7 +6,6 @@
 </script>
 
 
-
 <textarea id="input-text" on:select={onSelect} spellcheck="false">
 </textarea>
   

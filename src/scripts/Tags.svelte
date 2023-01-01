@@ -2,18 +2,19 @@
   import { createEventDispatcher } from "svelte"
   import { BIO } from "./enums"
   
-  let value = BIO.DEFAULT
+  
   export let options = []
+  export let selectedTag
+
   let dispatch = createEventDispatcher()
   
   $: {
-    console.log(value)
-    dispatch('tagChanged', value)
+    dispatch('tagChanged', selectedTag)
   }
 </script>
 
 <div class="tags-manager">
-  <select bind:value={value}>
+  <select bind:value={selectedTag}>
     {#each options as option}
       <option value={option} disabled={option == BIO.DEFAULT} selected={option == BIO.DEFAULT}>{option}</option>
     {/each}
