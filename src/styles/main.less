@@ -48,6 +48,7 @@ body {
                 }
 
                 &:nth-child(2) {
+                    background-color: #fff!important;
                     font-weight: 600;
                     //text-align: right;
                 }
@@ -63,12 +64,20 @@ body {
     }
 }
 
+.too-dark {
+    color: white!important;
+
+    option:not(.too-dark) {
+        color: black!important;
+    }
+}
+
 
 #input-text {
     border: @border solid black;
     width: calc(100% - 2*@border - @margin);
     height: auto;
-    min-height: 50%;
+    min-height: 30%;
     margin: 0;
     padding: calc(@margin/2);
     line-height: 1.7rem;
