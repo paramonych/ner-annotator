@@ -19,5 +19,9 @@ export interface Span {
 
 export const defaults = {
     span: {start: 0, stop: 0, type: ''},
-    markup: {text: '', spans: []}
+    markup: {
+        text: ``, 
+        spans: []
+    }
 }
+

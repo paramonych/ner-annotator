@@ -58,7 +58,7 @@
 </div> 
 
 
-<InputArea bind:tag={selectedTag} {selectedColor} bind:markup/>
+<InputArea bind:tag={selectedTag} on:textChanged={_ => markup = {...markup, text: _.detail}} bind:value={markup.text}/>
 
 <div class="result">
   {JSON.stringify(markup)}

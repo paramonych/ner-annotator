@@ -1,14 +1,14 @@
 <script lang="ts">
+  import { createEventDispatcher } from "svelte"
   import { onSelect } from "./utils"
   
   export let tag 
+  export let value
 
-  export let markup
-
-  let value = ''
-
+  let dispatch = createEventDispatcher()
+  
   $: {
-    markup = {...markup, text: value}
+    dispatch('textChanged', value)
   }
 
 </script>
