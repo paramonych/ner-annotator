@@ -6,7 +6,6 @@
   import InputArea from './InputArea.svelte'
   import Tags from './Tags.svelte'
   import OutputArea from './OutputArea.svelte'
-    import { text } from 'svelte/internal';
 
   let time = new Date()
   let hours = 0
@@ -79,8 +78,8 @@
   }
 
   function removeSpanByIndex(_) {
-      markup.spans.splice(_.detail, 1)
-      markup = markup    
+    markup.spans.splice(_.detail, 1)
+    markup = markup    
   }
 
   onMount(() => {
@@ -93,6 +92,7 @@
 
 <div class="header">
   <h1>Put your text here</h1>
+  <h5>Select the text in</h5>
 
   {#if selectedTag == BIO.NEW}
     <div class="new-tag">
@@ -104,7 +104,6 @@
     <Tags on:tagChanged={tagChanged} bind:colors bind:options bind:selectedTag bind:tagWarning/>
   {/if}
 </div> 
-
 
 <InputArea bind:tag={selectedTag} on:textChanged={_ => markup = {...markup, text: _.detail}} on:selectionChanged={processSelection} bind:value={markup.text}/>
 
