@@ -1,6 +1,6 @@
 <script lang="ts">
   import { createEventDispatcher } from "svelte"
-  import { getSelection, isTooDark } from "./utils"
+  import { isTooDark } from "./utils"
   
   export let markup
   export let options
@@ -24,8 +24,7 @@
 
   function removeSpan(index) {
     dispatch('removeSpan', index)
-  }
-  
+  }  
 </script>
 
 <div class="result">

@@ -12,7 +12,7 @@
   }
 
   function selectionChanged(_) {
-    dispatch('selectionChanged', {start: _.target.selectionStart, stop: _.target.selectionEnd})
+    dispatch('selectionChanged', {start: _.target.selectionStart, stop: _.target.selectionEnd, target: _.target})
   }
 </script>
 

@@ -6,6 +6,7 @@
   import InputArea from './InputArea.svelte'
   import Tags from './Tags.svelte'
   import OutputArea from './OutputArea.svelte'
+    import { text } from 'svelte/internal';
 
   let time = new Date()
   let hours = 0
@@ -18,11 +19,17 @@
   let markup = defaults.markup
   let colors = ['','', randomColor(), randomColor(), randomColor()]
   let tagWarning = false
+  let resultingMarkup = ''
 
   $: {
     hours = time.getHours()
     minutes = time.getMinutes()
     seconds = time.getSeconds()
+  }
+
+  $: {
+    let text = JSON.stringify(markup.text).replaceAll('\\"', "'").replaceAll('\\n', ' ').replaceAll('\\', ' ')
+    resultingMarkup = JSON.stringify({...markup, text: text.replaceAll('\"', '')})
   }
 
   function newTagSubmit() {
@@ -51,7 +58,9 @@
           stop: stop,
           type: selectedTag
         }].sort((a,b) => a.start > b.start ? 1 : (a.start == b.start ? 0 : -1))
-
+        
+        _.detail.target.selectionStart = void 0
+        _.detail.target.selectionEnd = void 0
       } else if(selectedTag == BIO.DEFAULT) {
         tagWarning = true
       } else if(existing.length) {
@@ -98,6 +107,10 @@
 
 
 <InputArea bind:tag={selectedTag} on:textChanged={_ => markup = {...markup, text: _.detail}} on:selectionChanged={processSelection} bind:value={markup.text}/>
+
+{#if markup.spans.length}
+  <a class="download" download="ner-annotations.json" href={`data:text/json;charset=utf-8,${resultingMarkup}`}>Download results</a>  
+{/if}
 
 <OutputArea bind:markup bind:colors on:removeSpan={removeSpanByIndex} bind:options/>
 
