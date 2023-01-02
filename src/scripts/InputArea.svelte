@@ -11,10 +11,9 @@
     dispatch('textChanged', value)
   }
 
-  function selectionChanged() {
-    dispatch('selectionChanged', getSelection())
+  function selectionChanged(_) {
+    dispatch('selectionChanged', {start: _.target.selectionStart, stop: _.target.selectionEnd})
   }
-
 </script>
 
 

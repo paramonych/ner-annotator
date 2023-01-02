@@ -32,8 +32,12 @@
   {`{"text":"${beginning}`}
 
   {#each markup.spans as next, index}
+    {#if index > 0 && markup.spans[index-1].stop < next.start}
+      {markup.text.substring(markup.spans[index-1].stop, next.start)}
+    {/if}
+
     <span class="marked" style='background-color: {colors[options.indexOf(next.type)]};' class:too-dark={isTooDark(colors[options.indexOf(next.type)])}>
-      <span class="underline">{markup.text.substring(markup.spans[0].start, markup.spans[0].stop)}</span>
+      <span class="underline">{markup.text.substring(next.start, next.stop)}</span>
       <sup class="type">
         {`${next.start}:${next.stop} ${next.type}`}
       </sup>

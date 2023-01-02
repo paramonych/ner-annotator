@@ -38,26 +38,28 @@
   }
 
   function processSelection(_) {
-    let selection = _.detail
-    let start = markup.text.indexOf(selection)
-    let stop = markup.text.indexOf(selection) + selection.length
-
-    let existing = markup.spans.filter(_ => (_.start == start && _.stop == stop))
-    let overlapping = markup.spans.filter(_ => (_.start < start && start < _.stop || _.start < stop && stop < _.stop))
+    let start = _.detail.start
+    let stop = _.detail.stop
     
-    if(selection && selectedTag != BIO.DEFAULT && stop > start && !existing.length && !overlapping.length) { 
-      markup.spans = [...markup.spans, {
-        start: start,
-        stop: stop,
-        type: selectedTag
-      }]
-    } else if(selectedTag == BIO.DEFAULT) {
-      tagWarning = true
-    } else if(existing.length) {
-      alert(`Span exist: ${JSON.stringify(existing)}`)
-    } else if(overlapping.length) {
-      alert(`Span overlaping: ${JSON.stringify(overlapping)}`)
-    } else if(!selection) {
+    if(start != void 0 && stop != void 0) {
+      let existing = markup.spans.filter(_ => (_.start == start && _.stop == stop))
+      let overlapping = markup.spans.filter(_ => (_.start < start && start < _.stop || _.start < stop && stop < _.stop || start < _.start && stop > _.stop))
+      
+      if(selectedTag != BIO.DEFAULT && stop > start && !existing.length && !overlapping.length) { 
+        markup.spans = [...markup.spans, {
+          start: start,
+          stop: stop,
+          type: selectedTag
+        }].sort((a,b) => a.start > b.start ? 1 : (a.start == b.start ? 0 : -1))
+
+      } else if(selectedTag == BIO.DEFAULT) {
+        tagWarning = true
+      } else if(existing.length) {
+        alert(`Span exist: ${JSON.stringify(existing)}`)
+      } else if(overlapping.length) {
+        alert(`Overlaping with existing span: ${JSON.stringify(overlapping)}`)
+      } 
+    } else {
       alert('Empty selection is not allowed')
     }
   }
