@@ -67,6 +67,11 @@
     selectedTag = _.detail
   }
 
+  function removeSpanByIndex(_) {
+      markup.spans.splice(_.detail, 1)
+      markup = markup    
+  }
+
   onMount(() => {
     const timer = setInterval(() => time = new Date(), 1000)
     return () => clearInterval(timer)
@@ -92,7 +97,7 @@
 
 <InputArea bind:tag={selectedTag} on:textChanged={_ => markup = {...markup, text: _.detail}} on:selectionChanged={processSelection} bind:value={markup.text}/>
 
-<OutputArea bind:markup bind:colors bind:options/>
+<OutputArea bind:markup bind:colors on:removeSpan={removeSpanByIndex} bind:options/>
 
   
 

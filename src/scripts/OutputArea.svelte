@@ -22,10 +22,10 @@
     ending = markup.text.substring(stop, markup.text.length)
   }
 
-  function selectionChanged() {
-    dispatch('selectionChanged', getSelection())
+  function removeSpan(index) {
+    dispatch('removeSpan', index)
   }
-
+  
 </script>
 
 <div class="result">
@@ -33,11 +33,11 @@
 
   {#each markup.spans as next, index}
     <span class="marked" style='background-color: {colors[options.indexOf(next.type)]};' class:too-dark={isTooDark(colors[options.indexOf(next.type)])}>
-      {markup.text.substring(markup.spans[0].start, markup.spans[0].stop)}
+      <span class="underline">{markup.text.substring(markup.spans[0].start, markup.spans[0].stop)}</span>
       <sup class="type">
         {`${next.start}:${next.stop} ${next.type}`}
       </sup>
-      <span class="drop" title="Remove span">
+      <span class="drop" title="Remove span" on:click={_ => removeSpan(index)}>
         x
       </span>
     </span>
